@@ -1,5 +1,6 @@
 import { Canvas } from '@react-three/fiber'
 import { Sky } from '@react-three/drei'
+import City from './City'
 
 export default function Scene() {
   return (
@@ -14,6 +15,7 @@ export default function Scene() {
         <planeGeometry args={[200, 200]} />
         <meshStandardMaterial color="#2a2a2a" />
       </mesh>
+      <City />
     </Canvas>
   )
 }

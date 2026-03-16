@@ -127,13 +127,110 @@ html, body {
 .gold { color: var(--gold); }
 .teal { color: var(--teal); }
 .muted { color: var(--muted); }
+
+/* Hero */
+.hero-inner { text-align: center; max-width: 800px; }
+.hero-greeting { font-size: 0.8rem; letter-spacing: 0.25em; color: var(--teal); margin-bottom: 16px; }
+.hero-name {
+  font-size: clamp(2.5rem, 8vw, 5.5rem);
+  font-weight: 900;
+  letter-spacing: -1px;
+  color: var(--text);
+  margin-bottom: 20px;
+  min-height: 1.2em;
+}
+.hero-sub {
+  font-size: clamp(1rem, 2.5vw, 1.4rem);
+  color: var(--muted);
+  min-height: 2em;
+  margin-bottom: 32px;
+}
+.cursor {
+  display: inline-block;
+  color: var(--teal);
+  animation: blink 1s step-end infinite;
+}
+@keyframes blink { 50% { opacity: 0; } }
+
+.hero-badges {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 40px;
+}
+.badge {
+  padding: 6px 16px;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--teal);
+  background: rgba(0,212,255,0.07);
+  opacity: 0;
+  transform: translateY(10px);
+}
+.gold-badge { color: var(--gold); border-color: rgba(240,192,64,0.3); background: rgba(240,192,64,0.07); }
+
+.hero-ctas { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 28px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  font-family: var(--font);
+  text-decoration: none;
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.btn-primary {
+  background: var(--teal);
+  color: #000;
+  border: none;
+}
+.btn-primary:hover { box-shadow: 0 0 20px rgba(0,212,255,0.5); transform: translateY(-2px); }
+.btn-outline {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+.btn-outline:hover { border-color: var(--teal); color: var(--teal); }
 </style>
 </head>
 <body>
   <div id="hud-counter">01 / 06</div>
   <div id="scanline-overlay"></div>
   <main id="sections">
-    <section id="s0" class="section active">HERO</section>
+    <section id="s0" class="section">
+  <div class="hero-inner">
+    <p class="hero-greeting sec-label">👋 Incoming Player</p>
+    <h1 class="hero-name">Sriram Ganeshalingam</h1>
+    <p class="hero-sub">
+      <span id="hero-typewriter"></span><span class="cursor">█</span>
+    </p>
+    <div class="hero-badges">
+      <span class="badge">MS @ UTD</span>
+      <span class="badge">GPA 3.92</span>
+      <span class="badge gold-badge">Dean's Excellence Scholar</span>
+    </div>
+    <div class="hero-ctas">
+      <a href="https://www.linkedin.com/in/sriram-ganeshalingam" target="_blank" class="btn btn-primary">
+        <i class="fab fa-linkedin"></i> LinkedIn
+      </a>
+      <a href="mailto:sriram.ganeshalingam@utdallas.edu" class="btn btn-outline">
+        <i class="fas fa-envelope"></i> Email
+      </a>
+      <a href="../portfolio/" class="btn btn-outline">
+        <i class="fas fa-user"></i> Full Portfolio
+      </a>
+    </div>
+  </div>
+</section>
     <section id="s1" class="section">SKILLS</section>
     <section id="s2" class="section">EXPERIENCE</section>
     <section id="s3" class="section">PROJECTS</section>
@@ -245,7 +342,87 @@ function runEntrance(idx, done) {
 }
 
 // Placeholder stubs — replaced in later tasks
-function entranceHero(done) { done(); }
+const SCRAMBLE_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+const HERO_ROLES = ['Data Analyst', 'ML Engineer', 'BI Specialist', 'Data Scientist'];
+
+function scrambleName(el, finalText, cb) {
+  el.innerHTML = finalText.split('').map((ch, i) =>
+    ch === ' ' ? ' ' : `<span data-i="${i}">${ch}</span>`
+  ).join('');
+  const spans = el.querySelectorAll('span');
+  let iter = 0;
+  const total = finalText.replace(/ /g, '').length * 4;
+  const iv = setInterval(() => {
+    spans.forEach(s => {
+      const fi = parseInt(s.dataset.i);
+      const resolved = fi < iter / 4;
+      s.textContent = resolved ? finalText[fi] : SCRAMBLE_CHARS[Math.floor(Math.random() * SCRAMBLE_CHARS.length)];
+    });
+    iter++;
+    if (iter > total) {
+      clearInterval(iv);
+      spans.forEach(s => s.textContent = finalText[parseInt(s.dataset.i)]);
+      cb();
+    }
+  }, 28);
+}
+
+function typeWriter(el, words, cb) {
+  let wi = 0, ci = 0, deleting = false;
+  el.textContent = '';
+  cb(); // unblock — typewriter runs indefinitely
+  function tick() {
+    const word = words[wi];
+    el.textContent = deleting ? word.slice(0, ci--) : word.slice(0, ci++);
+    let delay = deleting ? 60 : 100;
+    if (!deleting && ci > word.length) { delay = 1800; deleting = true; }
+    if (deleting && ci <= 0) { deleting = false; wi = (wi + 1) % words.length; ci = 0; delay = 300; }
+    setTimeout(tick, delay);
+  }
+  tick();
+}
+
+function animateIn(el, delay) {
+  setTimeout(() => {
+    el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+    el.style.opacity = '1';
+    el.style.transform = 'translateY(0)';
+  }, delay);
+}
+
+function entranceHero(done) {
+  const sec = getSection(0);
+  // Reset
+  sec.querySelector('.hero-greeting').style.opacity = '0';
+  sec.querySelector('.hero-name').style.opacity = '0';
+  sec.querySelectorAll('.badge').forEach(b => { b.style.opacity='0'; b.style.transform='translateY(10px)'; });
+  sec.querySelectorAll('.btn').forEach(b => { b.style.opacity='0'; b.style.transform='translateY(20px)'; });
+
+  // 1. Greeting fades in
+  setTimeout(() => {
+    const g = sec.querySelector('.hero-greeting');
+    g.style.transition = 'opacity 0.4s';
+    g.style.opacity = '1';
+  }, 100);
+
+  // 2. Name scrambles in
+  setTimeout(() => {
+    const nameEl = sec.querySelector('.hero-name');
+    nameEl.style.opacity = '1';
+    scrambleName(nameEl, 'Sriram Ganeshalingam', () => {
+      // 3. Typewriter starts
+      typeWriter(document.getElementById('hero-typewriter'), HERO_ROLES, () => {});
+
+      // 4. Badges pop in
+      sec.querySelectorAll('.badge').forEach((b, i) => animateIn(b, i * 150));
+
+      // 5. CTAs slide up
+      sec.querySelectorAll('.btn').forEach((b, i) => animateIn(b, 400 + i * 120));
+
+      done();
+    });
+  }, 400);
+}
 function entranceSkills(done) { done(); }
 function entranceExperience(done) { done(); }
 function entranceProjects(done) { done(); }

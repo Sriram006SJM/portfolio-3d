@@ -16,8 +16,8 @@ function CameraRig({ scrollProgress }) {
     const t = scrollProgress.current
     const z = 2 - t * TRAVEL_DEPTH
     const camZ = z + 8
-    camera.position.set(0, 3, camZ)
-    camera.lookAt(0, 1, z - 5)
+    camera.position.set(0, 4, camZ)
+    camera.lookAt(0, 2, z - 5)
   })
   return null
 }
@@ -35,7 +35,7 @@ function MovingCar({ scrollProgress }) {
 export default function Scene({ scrollProgress }) {
   return (
     <Canvas
-      camera={{ position: [0, 3, 10], fov: 60 }}
+      camera={{ position: [0, 4, 10], fov: 80 }}
       style={{ width: '100vw', height: '100vh' }}
     >
       <Sky sunPosition={[100, 20, 100]} />

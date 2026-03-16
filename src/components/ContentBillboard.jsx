@@ -2,11 +2,11 @@ import { Text } from '@react-three/drei'
 import { INTER_FONT as FONT } from '../constants/fonts'
 
 export default function ContentBillboard({ stop }) {
-  const x = stop.side === 'right' ? 12 : -12
+  const x = stop.side === 'right' ? 9 : -9
   const xFace = stop.side === 'right' ? -1 : 1
 
   return (
-    <group position={[x, 5, stop.z]} rotation={[0, xFace * Math.PI * 0.08, 0]}>
+    <group position={[x, 4, stop.z]} rotation={[0, xFace * Math.PI * 0.15, 0]}>
       {/* Board */}
       <mesh>
         <boxGeometry args={[7, 8, 0.3]} />

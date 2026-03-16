@@ -5,7 +5,7 @@ export default function PhotoBillboard() {
   const texture = useTexture(`${import.meta.env.BASE_URL}sriram.jpeg`)
 
   return (
-    <group position={[-10, 6, -12]}>
+    <group position={[-8, 4, -12]} rotation={[0, Math.PI * 0.15, 0]}>
       {/* Billboard frame */}
       <mesh>
         <boxGeometry args={[6, 7, 0.3]} />

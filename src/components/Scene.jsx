@@ -4,6 +4,7 @@ import { useRef } from 'react'
 import City from './City'
 import Road from './Road'
 import Car from './Car'
+import PhotoBillboard from './PhotoBillboard'
 
 const TRAVEL_DEPTH = 90
 
@@ -43,6 +44,7 @@ export default function Scene({ scrollProgress }) {
       </mesh>
       <City />
       <Road />
+      <PhotoBillboard />
       {scrollProgress != null && <MovingCar scrollProgress={scrollProgress} />}
       {scrollProgress != null && <CameraRig scrollProgress={scrollProgress} />}
     </Canvas>

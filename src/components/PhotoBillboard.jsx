@@ -1,0 +1,41 @@
+import { useTexture, Text } from '@react-three/drei'
+
+const FONT = "https://fonts.gstatic.com/s/inter/v13/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiA.woff2"
+
+export default function PhotoBillboard() {
+  const texture = useTexture('/portfolio-3d/sriram.jpeg')
+
+  return (
+    <group position={[-10, 6, -12]}>
+      {/* Billboard frame */}
+      <mesh>
+        <boxGeometry args={[6, 7, 0.3]} />
+        <meshStandardMaterial color="#222" />
+      </mesh>
+      {/* Photo */}
+      <mesh position={[0, 0.5, 0.2]}>
+        <planeGeometry args={[5, 5.5]} />
+        <meshStandardMaterial map={texture} />
+      </mesh>
+      {/* Name text */}
+      <Text
+        position={[0, -2.8, 0.2]}
+        fontSize={0.45}
+        color="#00d4ff"
+        anchorX="center"
+        font={FONT}
+      >
+        Sriram Ganeshalingam
+      </Text>
+      <Text
+        position={[0, -3.35, 0.2]}
+        fontSize={0.3}
+        color="#8892b0"
+        anchorX="center"
+        font={FONT}
+      >
+        Data Analyst · MS @ UTD · GPA 3.92
+      </Text>
+    </group>
+  )
+}

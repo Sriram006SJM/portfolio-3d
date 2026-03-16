@@ -12,19 +12,18 @@ function Building({ position, size }) {
 export default function City() {
   const buildings = useMemo(() => {
     const list = []
-    const seed = [
-      // Left side of road (negative X)
-      [-8, 0, -10], [-8, 0, -25], [-8, 0, -40], [-8, 0, -55], [-8, 0, -70],
-      [-12, 0, -15], [-12, 0, -35], [-12, 0, -50], [-12, 0, -65],
-      // Right side of road (positive X)
-      [8, 0, -10], [8, 0, -25], [8, 0, -40], [8, 0, -55], [8, 0, -70],
-      [12, 0, -15], [12, 0, -35], [12, 0, -50], [12, 0, -65],
-    ]
-    seed.forEach(([x, , z], i) => {
-      const h = 6 + (i % 5) * 4
-      list.push({ position: [x, h / 2, z], size: [5, h, 5] })
+    for (let z = -5; z > -95; z -= 8) {
+      list.push(
+        { position: [-8, 0, z], i: list.length },
+        { position: [-13, 0, z + 3], i: list.length + 1 },
+        { position: [8, 0, z], i: list.length + 2 },
+        { position: [13, 0, z + 3], i: list.length + 3 },
+      )
+    }
+    return list.map(({ position: [x, , z], i }) => {
+      const h = 5 + ((i * 7) % 20)
+      return { position: [x, h / 2, z], size: [4 + (i % 3), h, 4 + (i % 2)] }
     })
-    return list
   }, [])
 
   return (

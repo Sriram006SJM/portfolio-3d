@@ -140,5 +140,123 @@ html, body {
     <section id="s4" class="section">EDUCATION</section>
     <section id="s5" class="section">CONTACT</section>
   </main>
+<script>
+const TOTAL = 6;
+let current = 0;
+let locked = false;
+
+// Add flash div
+const flash = document.createElement('div');
+flash.id = 'flash';
+document.body.appendChild(flash);
+
+// Add scroll hint
+const hint = document.createElement('div');
+hint.id = 'scroll-hint';
+hint.innerHTML = '▼ SCROLL';
+document.body.appendChild(hint);
+
+function getSection(i) {
+  return document.getElementById('s' + i);
+}
+
+function updateHUD() {
+  document.getElementById('hud-counter').textContent =
+    String(current + 1).padStart(2,'0') + ' / ' + String(TOTAL).padStart(2,'0');
+}
+
+function flashScreen(cb) {
+  flash.style.transition = 'opacity 0.12s ease';
+  flash.style.opacity = '0.15';
+  setTimeout(() => {
+    flash.style.opacity = '0';
+    setTimeout(cb, 120);
+  }, 120);
+}
+
+function goTo(next) {
+  if (locked || next < 0 || next >= TOTAL || next === current) return;
+  locked = true;
+
+  const prev = current;
+  current = next;
+  updateHUD();
+
+  // Hide scroll hint on first move
+  hint.style.opacity = '0';
+
+  flashScreen(() => {
+    // Hide previous
+    const prevEl = getSection(prev);
+    prevEl.classList.remove('active');
+    prevEl.style.opacity = '0';
+
+    // Show next
+    const nextEl = getSection(next);
+    nextEl.style.opacity = '1';
+    nextEl.classList.add('active');
+
+    // Run entrance animation
+    runEntrance(next, () => {
+      locked = false;
+    });
+  });
+}
+
+// Wheel handler
+let wheelAccum = 0;
+window.addEventListener('wheel', (e) => {
+  e.preventDefault();
+  if (locked) return;
+  wheelAccum += e.deltaY;
+  if (wheelAccum > 60) { wheelAccum = 0; goTo(current + 1); }
+  else if (wheelAccum < -60) { wheelAccum = 0; goTo(current - 1); }
+}, { passive: false });
+
+// Touch handler
+let touchY = 0;
+window.addEventListener('touchstart', (e) => { touchY = e.touches[0].clientY; }, { passive: true });
+window.addEventListener('touchend', (e) => {
+  if (locked) return;
+  const dy = touchY - e.changedTouches[0].clientY;
+  if (dy > 40) goTo(current + 1);
+  else if (dy < -40) goTo(current - 1);
+}, { passive: true });
+
+// Keyboard
+window.addEventListener('keydown', (e) => {
+  if (locked) return;
+  if (e.key === 'ArrowDown' || e.key === 'PageDown') goTo(current + 1);
+  if (e.key === 'ArrowUp' || e.key === 'PageUp') goTo(current - 1);
+});
+
+// Entrance dispatcher — each section implements its own
+function runEntrance(idx, done) {
+  const fns = [
+    entranceHero,
+    entranceSkills,
+    entranceExperience,
+    entranceProjects,
+    entranceEducation,
+    entranceContact,
+  ];
+  if (fns[idx]) fns[idx](done);
+  else done();
+}
+
+// Placeholder stubs — replaced in later tasks
+function entranceHero(done) { done(); }
+function entranceSkills(done) { done(); }
+function entranceExperience(done) { done(); }
+function entranceProjects(done) { done(); }
+function entranceEducation(done) { done(); }
+function entranceContact(done) { done(); }
+
+// Boot: run hero entrance immediately
+getSection(0).style.opacity = '1';
+getSection(0).classList.add('active');
+updateHUD();
+setTimeout(() => entranceHero(() => {}), 300);
+</script>
 </body>
 </html>

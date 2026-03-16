@@ -4,10 +4,9 @@ export function useScrollProgress() {
   const progress = useRef(0)
 
   useEffect(() => {
-    const totalHeight = document.body.scrollHeight - window.innerHeight
-
     function onScroll() {
-      progress.current = window.scrollY / totalHeight
+      const totalHeight = document.body.scrollHeight - window.innerHeight
+      progress.current = Math.min(1, Math.max(0, window.scrollY / totalHeight))
     }
 
     window.addEventListener('scroll', onScroll, { passive: true })

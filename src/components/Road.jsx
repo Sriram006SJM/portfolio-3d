@@ -1,11 +1,11 @@
 function Streetlight({ z }) {
   return (
     <group position={[5.5, 0, z]}>
-      <mesh position={[0, 2.5, 0]}>
+      <mesh position={[0, 2.5, 0]} castShadow>
         <cylinderGeometry args={[0.08, 0.08, 5]} />
         <meshStandardMaterial color="#555" />
       </mesh>
-      <mesh position={[0, 5.2, 0]}>
+      <mesh position={[0, 5.2, 0]} castShadow>
         <boxGeometry args={[0.8, 0.15, 0.15]} />
         <meshStandardMaterial color="#555" />
       </mesh>
@@ -19,21 +19,21 @@ export default function Road() {
   return (
     <group>
       {/* Road surface */}
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.01, -40]}>
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.01, -40]} receiveShadow>
         <planeGeometry args={[10, 100]} />
         <meshStandardMaterial color="#1a1a1a" />
       </mesh>
       {/* Centre line */}
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.02, -40]}>
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.03, -40]}>
         <planeGeometry args={[0.15, 100]} />
         <meshStandardMaterial color="#ffff00" />
       </mesh>
       {/* Sidewalks */}
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[-6.5, 0.01, -40]}>
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[-6.5, 0.02, -40]} receiveShadow>
         <planeGeometry args={[3, 100]} />
         <meshStandardMaterial color="#444" />
       </mesh>
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[6.5, 0.01, -40]}>
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[6.5, 0.02, -40]} receiveShadow>
         <planeGeometry args={[3, 100]} />
         <meshStandardMaterial color="#444" />
       </mesh>

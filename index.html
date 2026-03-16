@@ -200,6 +200,26 @@ html, body {
   border: 1px solid var(--border);
 }
 .btn-outline:hover { border-color: var(--teal); color: var(--teal); }
+
+/* Skills */
+.skills-inner { width: 100%; max-width: 700px; }
+.skills-grid { display: flex; flex-direction: column; gap: 18px; }
+.skill-row { display: grid; grid-template-columns: 200px 1fr 48px; align-items: center; gap: 16px; opacity: 0; transform: translateX(-20px); }
+.skill-name { font-size: 0.85rem; font-weight: 600; color: var(--text); }
+.xp-bar { height: 8px; background: rgba(255,255,255,0.08); border-radius: 4px; overflow: hidden; }
+.xp-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--teal), var(--gold)); border-radius: 4px; transition: width 1s cubic-bezier(0.4,0,0.2,1); }
+.xp-num { font-size: 0.75rem; font-weight: 700; color: var(--teal); text-align: right; }
+
+/* Scanline sweep */
+.scanline-sweep {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 0%, rgba(0,212,255,0.06) 50%, transparent 100%);
+  height: 80px;
+  width: 100%;
+  top: -80px;
+  pointer-events: none;
+}
 </style>
 </head>
 <body>
@@ -231,7 +251,21 @@ html, body {
     </div>
   </div>
 </section>
-    <section id="s1" class="section">SKILLS</section>
+    <section id="s1" class="section">
+  <div class="skills-inner">
+    <p class="sec-label">PLAYER STATS</p>
+    <h2 class="sec-title">Technical <span>Skills</span></h2>
+    <div class="skills-grid" id="skills-grid">
+      <div class="skill-row" data-pct="92"><span class="skill-name">SQL &amp; Databases</span><div class="xp-bar"><div class="xp-fill"></div></div><span class="xp-num">0</span></div>
+      <div class="skill-row" data-pct="88"><span class="skill-name">Python &amp; ML</span><div class="xp-bar"><div class="xp-fill"></div></div><span class="xp-num">0</span></div>
+      <div class="skill-row" data-pct="85"><span class="skill-name">Analytics &amp; BI</span><div class="xp-bar"><div class="xp-fill"></div></div><span class="xp-num">0</span></div>
+      <div class="skill-row" data-pct="80"><span class="skill-name">Data Engineering</span><div class="xp-bar"><div class="xp-fill"></div></div><span class="xp-num">0</span></div>
+      <div class="skill-row" data-pct="78"><span class="skill-name">Machine Learning &amp; AI</span><div class="xp-bar"><div class="xp-fill"></div></div><span class="xp-num">0</span></div>
+      <div class="skill-row" data-pct="90"><span class="skill-name">Product &amp; Strategy</span><div class="xp-bar"><div class="xp-fill"></div></div><span class="xp-num">0</span></div>
+    </div>
+  </div>
+  <div class="scanline-sweep" id="skills-sweep"></div>
+</section>
     <section id="s2" class="section">EXPERIENCE</section>
     <section id="s3" class="section">PROJECTS</section>
     <section id="s4" class="section">EDUCATION</section>
@@ -423,7 +457,51 @@ function entranceHero(done) {
     });
   }, 400);
 }
-function entranceSkills(done) { done(); }
+function entranceSkills(done) {
+  const sec = getSection(1);
+  const label = sec.querySelector('.sec-label');
+  const title = sec.querySelector('.sec-title');
+  const rows = sec.querySelectorAll('.skill-row');
+  const sweep = document.getElementById('skills-sweep');
+
+  // Reset
+  label.style.opacity = '0';
+  title.style.opacity = '0';
+  rows.forEach(r => { r.style.opacity='0'; r.style.transform='translateX(-20px)'; r.querySelector('.xp-fill').style.width='0%'; r.querySelector('.xp-num').textContent='0'; });
+
+  // 1. Scanline sweep
+  sweep.style.transition = 'top 0.6s linear';
+  sweep.style.top = '-80px';
+  setTimeout(() => { sweep.style.top = '110%'; }, 50);
+
+  // 2. Label + title fade in
+  setTimeout(() => {
+    label.style.transition = 'opacity 0.4s'; label.style.opacity = '1';
+    setTimeout(() => { title.style.transition = 'opacity 0.4s'; title.style.opacity = '1'; }, 200);
+  }, 300);
+
+  // 3. Rows slide in + bars fill
+  rows.forEach((row, i) => {
+    setTimeout(() => {
+      row.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+      row.style.opacity = '1';
+      row.style.transform = 'translateX(0)';
+      const pct = parseInt(row.dataset.pct);
+      setTimeout(() => {
+        row.querySelector('.xp-fill').style.width = pct + '%';
+        // Count up number
+        let n = 0;
+        const numEl = row.querySelector('.xp-num');
+        const countIv = setInterval(() => {
+          n += 2;
+          if (n >= pct) { n = pct; clearInterval(countIv); }
+          numEl.textContent = n;
+        }, 20);
+      }, 200);
+      if (i === rows.length - 1) setTimeout(done, 1200);
+    }, 500 + i * 130);
+  });
+}
 function entranceExperience(done) { done(); }
 function entranceProjects(done) { done(); }
 function entranceEducation(done) { done(); }

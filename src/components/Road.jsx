@@ -21,7 +21,7 @@ export default function Road() {
       {/* Road surface */}
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.01, -40]} receiveShadow>
         <planeGeometry args={[10, 100]} />
-        <meshStandardMaterial color="#2a2a2a" roughness={0.9} />
+        <meshBasicMaterial color="#2a2a35" />
       </mesh>
       {/* Centre line */}
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.03, -40]}>
@@ -31,11 +31,11 @@ export default function Road() {
       {/* Sidewalks */}
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[-6.5, 0.02, -40]} receiveShadow>
         <planeGeometry args={[3, 100]} />
-        <meshStandardMaterial color="#444" />
+        <meshBasicMaterial color="#3a3a4a" />
       </mesh>
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[6.5, 0.02, -40]} receiveShadow>
         <planeGeometry args={[3, 100]} />
-        <meshStandardMaterial color="#444" />
+        <meshBasicMaterial color="#3a3a4a" />
       </mesh>
       {/* Streetlights */}
       {lights.map(z => <Streetlight key={z} z={z} />)}

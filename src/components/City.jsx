@@ -1,15 +1,12 @@
 import { useMemo } from 'react'
 
+const BUILDING_COLORS = ['#2a3f5f', '#243350', '#1e3060', '#2d4570', '#253858']
+
 function Building({ position, size, idx }) {
-  const windowColor = ['#ffe4a0', '#a0d4ff', '#ffd0a0', '#c0ffc0'][idx % 4]
   return (
     <mesh position={position}>
       <boxGeometry args={size} />
-      <meshStandardMaterial
-        color="#1a1a2e"
-        emissive={windowColor}
-        emissiveIntensity={0.12}
-      />
+      <meshBasicMaterial color={BUILDING_COLORS[idx % BUILDING_COLORS.length]} />
     </mesh>
   )
 }

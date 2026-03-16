@@ -38,15 +38,12 @@ export default function Scene({ scrollProgress }) {
   return (
     <Canvas
       camera={{ position: [0, 4, 10], fov: 80 }}
-      style={{ width: '100vw', height: '100vh' }}
-      shadows
+      style={{ width: '100vw', height: '100vh', background: '#0a0a1e' }}
     >
-      <color attach="background" args={['#0a0a1e']} />
-      <ambientLight intensity={0.3} />
-      <directionalLight position={[10, 20, 10]} intensity={0.5} castShadow />
-      <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
+      <ambientLight intensity={2} />
+      <mesh rotation={[-Math.PI / 2, 0, 0]}>
         <planeGeometry args={[200, 200]} />
-        <meshStandardMaterial color="#111118" />
+        <meshBasicMaterial color="#1a1a2a" />
       </mesh>
       <City />
       <Road />

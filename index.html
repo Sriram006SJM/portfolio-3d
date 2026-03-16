@@ -210,6 +210,22 @@ html, body {
 .xp-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--teal), var(--gold)); border-radius: 4px; transition: width 1s cubic-bezier(0.4,0,0.2,1); }
 .xp-num { font-size: 0.75rem; font-weight: 700; color: var(--teal); text-align: right; }
 
+/* Experience */
+.exp-inner { width: 100%; max-width: 760px; transform: translateX(100px); opacity: 0; }
+.timeline { display: flex; flex-direction: column; gap: 32px; position: relative; padding-left: 24px; }
+.timeline::before { content: ''; position: absolute; left: 0; top: 8px; bottom: 8px; width: 2px; background: linear-gradient(180deg, var(--teal), var(--gold)); }
+.tl-item { display: flex; gap: 20px; opacity: 0; transform: translateX(30px); }
+.tl-dot { width: 12px; height: 12px; border-radius: 50%; background: var(--teal); margin-top: 6px; flex-shrink: 0; box-shadow: 0 0 8px var(--teal); position: relative; left: -30px; }
+.tl-content { flex: 1; }
+.tl-header { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 8px; margin-bottom: 4px; }
+.tl-org { font-size: 1.1rem; font-weight: 700; color: var(--text); }
+.tl-date { font-size: 0.8rem; color: var(--teal); font-weight: 600; }
+.tl-role { font-size: 0.85rem; color: var(--muted); margin-bottom: 10px; font-style: italic; }
+.tl-bullets { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+.tl-bullets li { font-size: 0.85rem; color: var(--muted); padding-left: 14px; position: relative; }
+.tl-bullets li::before { content: '▸'; position: absolute; left: 0; color: var(--teal); }
+.tl-bullets strong { color: var(--text); font-weight: 600; }
+
 /* Scanline sweep */
 .scanline-sweep {
   position: absolute;
@@ -266,7 +282,43 @@ html, body {
   </div>
   <div class="scanline-sweep" id="skills-sweep"></div>
 </section>
-    <section id="s2" class="section">EXPERIENCE</section>
+    <section id="s2" class="section">
+  <div class="exp-inner" id="exp-inner">
+    <p class="sec-label">MISSION LOG</p>
+    <h2 class="sec-title">Work <span>Experience</span></h2>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-content">
+          <div class="tl-header">
+            <span class="tl-org">Capgemini</span>
+            <span class="tl-date">Jun 2022 – Jul 2024</span>
+          </div>
+          <div class="tl-role">Professional Software Developer · Chennai, India</div>
+          <ul class="tl-bullets">
+            <li>Queried PostgreSQL across <strong>500K+ records daily</strong>, reducing query latency by <strong>20%</strong></li>
+            <li>Reduced reconciliation errors by <strong>15%</strong> through automated validation checks</li>
+            <li>Cut clarification cycles by <strong>25%</strong> via root cause analysis coordination</li>
+          </ul>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-content">
+          <div class="tl-header">
+            <span class="tl-org">Cango Networks</span>
+            <span class="tl-date">Sep 2021 – Mar 2022</span>
+          </div>
+          <div class="tl-role">Software Developer · Chennai, India</div>
+          <ul class="tl-bullets">
+            <li>Built Tableau &amp; Power BI dashboards reducing reporting time by <strong>30%</strong></li>
+            <li>Improved data consistency, reducing inconsistencies by <strong>18%</strong></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
     <section id="s3" class="section">PROJECTS</section>
     <section id="s4" class="section">EDUCATION</section>
     <section id="s5" class="section">CONTACT</section>
@@ -502,7 +554,43 @@ function entranceSkills(done) {
     }, 500 + i * 130);
   });
 }
-function entranceExperience(done) { done(); }
+function entranceExperience(done) {
+  const sec = getSection(2);
+  const inner = document.getElementById('exp-inner');
+  const label = sec.querySelector('.sec-label');
+  const title = sec.querySelector('.sec-title');
+  const items = sec.querySelectorAll('.tl-item');
+
+  // Reset
+  inner.style.transform = 'translateX(100px)';
+  inner.style.opacity = '0';
+  label.style.opacity = '0';
+  title.style.opacity = '0';
+  items.forEach(it => { it.style.opacity='0'; it.style.transform='translateX(30px)'; });
+
+  // 1. Panel slides in from right
+  setTimeout(() => {
+    inner.style.transition = 'transform 0.5s cubic-bezier(0.2,0,0.2,1), opacity 0.5s ease';
+    inner.style.transform = 'translateX(0)';
+    inner.style.opacity = '1';
+  }, 100);
+
+  // 2. Label + title
+  setTimeout(() => {
+    label.style.transition = 'opacity 0.4s'; label.style.opacity = '1';
+    setTimeout(() => { title.style.transition = 'opacity 0.4s'; title.style.opacity = '1'; }, 200);
+  }, 400);
+
+  // 3. Timeline items drop in
+  items.forEach((item, i) => {
+    setTimeout(() => {
+      item.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+      item.style.opacity = '1';
+      item.style.transform = 'translateX(0)';
+      if (i === items.length - 1) setTimeout(done, 500);
+    }, 700 + i * 250);
+  });
+}
 function entranceProjects(done) { done(); }
 function entranceEducation(done) { done(); }
 function entranceContact(done) { done(); }

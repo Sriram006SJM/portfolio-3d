@@ -1,10 +1,15 @@
 import { useMemo } from 'react'
 
-function Building({ position, size }) {
+function Building({ position, size, idx }) {
+  const windowColor = ['#ffe4a0', '#a0d4ff', '#ffd0a0', '#c0ffc0'][idx % 4]
   return (
-    <mesh position={position} castShadow receiveShadow>
+    <mesh position={position}>
       <boxGeometry args={size} />
-      <meshStandardMaterial color="#3a3a4a" />
+      <meshStandardMaterial
+        color="#1a1a2e"
+        emissive={windowColor}
+        emissiveIntensity={0.12}
+      />
     </mesh>
   )
 }
@@ -29,7 +34,7 @@ export default function City() {
   return (
     <group>
       {buildings.map((b, i) => (
-        <Building key={i} position={b.position} size={b.size} />
+        <Building key={i} position={b.position} size={b.size} idx={i} />
       ))}
     </group>
   )

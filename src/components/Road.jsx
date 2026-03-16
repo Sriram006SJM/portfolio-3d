@@ -9,7 +9,7 @@ function Streetlight({ z }) {
         <boxGeometry args={[0.8, 0.15, 0.15]} />
         <meshStandardMaterial color="#555" />
       </mesh>
-      <pointLight position={[0, 5, 0]} intensity={1.5} distance={12} color="#ffe4a0" />
+      <pointLight position={[0, 5, 0]} intensity={4} distance={18} color="#ffe4a0" />
     </group>
   )
 }
@@ -21,7 +21,7 @@ export default function Road() {
       {/* Road surface */}
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.01, -40]} receiveShadow>
         <planeGeometry args={[10, 100]} />
-        <meshStandardMaterial color="#1a1a1a" />
+        <meshStandardMaterial color="#2a2a2a" roughness={0.9} />
       </mesh>
       {/* Centre line */}
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.03, -40]}>

@@ -1,5 +1,4 @@
 import { Canvas, useFrame } from '@react-three/fiber'
-import { Sky } from '@react-three/drei'
 import { useRef, Suspense } from 'react'
 import City from './City'
 import Road from './Road'
@@ -38,12 +37,12 @@ export default function Scene({ scrollProgress }) {
       camera={{ position: [0, 4, 10], fov: 80 }}
       style={{ width: '100vw', height: '100vh' }}
     >
-      <Sky sunPosition={[100, 20, 100]} />
-      <ambientLight intensity={0.6} />
-      <directionalLight position={[10, 20, 10]} intensity={1.2} castShadow />
-      <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
+      <color attach="background" args={['#0a0a1e']} />
+      <ambientLight intensity={0.3} />
+      <directionalLight position={[10, 20, 10]} intensity={0.5} />
+      <mesh rotation={[-Math.PI / 2, 0, 0]}>
         <planeGeometry args={[200, 200]} />
-        <meshStandardMaterial color="#2a2a2a" />
+        <meshStandardMaterial color="#111118" />
       </mesh>
       <City />
       <Road />

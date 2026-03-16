@@ -1,6 +1,5 @@
 import { useTexture, Text } from '@react-three/drei'
-
-const FONT = "https://fonts.gstatic.com/s/inter/v13/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiA.woff2"
+import { INTER_FONT as FONT } from '../constants/fonts'
 
 export default function PhotoBillboard() {
   const texture = useTexture(`${import.meta.env.BASE_URL}sriram.jpeg`)

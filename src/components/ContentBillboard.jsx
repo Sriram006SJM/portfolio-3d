@@ -1,6 +1,5 @@
 import { Text } from '@react-three/drei'
-
-const FONT = "https://fonts.gstatic.com/s/inter/v13/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiA.woff2"
+import { INTER_FONT as FONT } from '../constants/fonts'
 
 export default function ContentBillboard({ stop }) {
   const x = stop.side === 'right' ? 12 : -12
@@ -23,18 +22,20 @@ export default function ContentBillboard({ stop }) {
         {stop.title}
       </Text>
       {/* Lines */}
-      {stop.lines.map((line, i) => (
-        <Text
-          key={i}
-          position={[0, 2.1 - i * 0.65, 0.2]}
-          fontSize={0.28}
-          color={line.startsWith('  ') ? '#8892b0' : '#ffffff'}
-          anchorX="center"
-          font={FONT}
-        >
-          {line.trim()}
-        </Text>
-      ))}
+      {stop.lines.map((line, i) =>
+        line.trim() ? (
+          <Text
+            key={i}
+            position={[0, 2.1 - i * 0.65, 0.2]}
+            fontSize={0.28}
+            color={line.startsWith('  ') ? '#8892b0' : '#ffffff'}
+            anchorX="center"
+            font={FONT}
+          >
+            {line.trim()}
+          </Text>
+        ) : null
+      )}
     </group>
   )
 }

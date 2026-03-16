@@ -1,6 +1,6 @@
 import { Canvas, useFrame } from '@react-three/fiber'
 import { Sky } from '@react-three/drei'
-import { useRef } from 'react'
+import { useRef, Suspense } from 'react'
 import City from './City'
 import Road from './Road'
 import Car from './Car'
@@ -44,7 +44,9 @@ export default function Scene({ scrollProgress }) {
       </mesh>
       <City />
       <Road />
-      <PhotoBillboard />
+      <Suspense fallback={null}>
+        <PhotoBillboard />
+      </Suspense>
       {scrollProgress != null && <MovingCar scrollProgress={scrollProgress} />}
       {scrollProgress != null && <CameraRig scrollProgress={scrollProgress} />}
     </Canvas>

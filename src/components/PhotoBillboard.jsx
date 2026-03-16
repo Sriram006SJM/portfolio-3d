@@ -3,7 +3,7 @@ import { useTexture, Text } from '@react-three/drei'
 const FONT = "https://fonts.gstatic.com/s/inter/v13/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiA.woff2"
 
 export default function PhotoBillboard() {
-  const texture = useTexture('/portfolio-3d/sriram.jpeg')
+  const texture = useTexture(`${import.meta.env.BASE_URL}sriram.jpeg`)
 
   return (
     <group position={[-10, 6, -12]}>

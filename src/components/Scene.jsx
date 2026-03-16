@@ -1,10 +1,32 @@
-import { Canvas } from '@react-three/fiber'
+import { Canvas, useFrame } from '@react-three/fiber'
 import { Sky } from '@react-three/drei'
+import { useRef } from 'react'
 import City from './City'
 import Road from './Road'
 import Car from './Car'
 
-export default function Scene() {
+function CameraRig({ scrollProgress }) {
+  useFrame(({ camera }) => {
+    const t = scrollProgress.current
+    const z = 2 - t * 90
+    const camZ = z + 8
+    camera.position.set(0, 3, camZ)
+    camera.lookAt(0, 1, z - 5)
+  })
+  return null
+}
+
+function MovingCar({ scrollProgress }) {
+  const ref = useRef()
+  useFrame(() => {
+    if (!ref.current) return
+    const t = scrollProgress.current
+    ref.current.position.z = 2 - t * 90
+  })
+  return <Car ref={ref} position={[0, 0, 2]} />
+}
+
+export default function Scene({ scrollProgress }) {
   return (
     <Canvas
       camera={{ position: [0, 2, 8], fov: 60 }}
@@ -19,7 +41,8 @@ export default function Scene() {
       </mesh>
       <City />
       <Road />
-      <Car position={[0, 0, 2]} />
+      {scrollProgress && <MovingCar scrollProgress={scrollProgress} />}
+      {scrollProgress && <CameraRig scrollProgress={scrollProgress} />}
     </Canvas>
   )
 }

@@ -1,6 +1,7 @@
 import { Canvas } from '@react-three/fiber'
 import { Sky } from '@react-three/drei'
 import City from './City'
+import Road from './Road'
 
 export default function Scene() {
   return (
@@ -16,6 +17,7 @@ export default function Scene() {
         <meshStandardMaterial color="#2a2a2a" />
       </mesh>
       <City />
+      <Road />
     </Canvas>
   )
 }

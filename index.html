@@ -252,6 +252,36 @@ html, body {
 
 @media (max-width: 600px) { .proj-grid { grid-template-columns: 1fr; } .featured-card { grid-column: 1; } }
 
+/* Education */
+.achievement-banner {
+  position: absolute;
+  top: 60px;
+  left: 50%;
+  transform: translateX(-50%) scale(0.5);
+  background: linear-gradient(90deg, var(--gold), #ffaa00);
+  color: #000;
+  padding: 10px 28px;
+  border-radius: 30px;
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  opacity: 0;
+  white-space: nowrap;
+}
+.edu-inner { width: 100%; max-width: 760px; opacity: 0; transform: translateY(30px); }
+.edu-cards { display: flex; flex-direction: column; gap: 20px; }
+.edu-card { display: flex; gap: 20px; padding: 24px; background: rgba(240,192,64,0.05); border: 1px solid rgba(240,192,64,0.2); border-radius: 12px; opacity: 0; transform: translateY(20px); }
+.edu-icon { font-size: 1.8rem; color: var(--gold); width: 40px; flex-shrink: 0; }
+.edu-school { font-size: 1rem; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+.edu-degree { font-size: 0.9rem; color: var(--teal); font-weight: 600; margin-bottom: 4px; }
+.edu-meta { font-size: 0.8rem; color: var(--muted); margin-bottom: 10px; }
+.edu-meta strong { color: var(--gold); }
+.edu-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.edu-chips span { font-size: 0.7rem; padding: 3px 10px; border-radius: 12px; background: rgba(240,192,64,0.1); color: var(--gold); border: 1px solid rgba(240,192,64,0.2); }
+
 /* Scanline sweep */
 .scanline-sweep {
   position: absolute;
@@ -376,7 +406,37 @@ html, body {
     </div>
   </div>
 </section>
-    <section id="s4" class="section">EDUCATION</section>
+    <section id="s4" class="section">
+  <div class="achievement-banner" id="ach-banner">
+    <i class="fas fa-trophy"></i>
+    <span>ACHIEVEMENT UNLOCKED</span>
+  </div>
+  <div class="edu-inner" id="edu-inner">
+    <p class="sec-label">CREDENTIALS</p>
+    <h2 class="sec-title">Education</h2>
+    <div class="edu-cards">
+      <div class="edu-card" id="edu-card-0">
+        <div class="edu-icon"><i class="fas fa-graduation-cap"></i></div>
+        <div class="edu-body">
+          <div class="edu-school">University of Texas at Dallas</div>
+          <div class="edu-degree">MS in Business Analytics &amp; AI</div>
+          <div class="edu-meta">Aug 2024 – Dec 2025 · GPA <strong>3.92</strong> · Dean's Excellence Scholar</div>
+          <div class="edu-chips">
+            <span>Data Warehousing</span><span>Predictive Analytics</span><span>Big Data</span><span>Deep Learning</span><span>Business Analytics with R</span>
+          </div>
+        </div>
+      </div>
+      <div class="edu-card" id="edu-card-1">
+        <div class="edu-icon"><i class="fas fa-university"></i></div>
+        <div class="edu-body">
+          <div class="edu-school">College of Engineering, Guindy</div>
+          <div class="edu-degree">BE in Engineering</div>
+          <div class="edu-meta">2017 – 2021 · GPA <strong>3.1</strong></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
     <section id="s5" class="section">CONTACT</section>
   </main>
 <script>
@@ -674,7 +734,47 @@ function entranceProjects(done) {
     }, 400 + i * 150);
   });
 }
-function entranceEducation(done) { done(); }
+function entranceEducation(done) {
+  const sec = getSection(4);
+  const banner = document.getElementById('ach-banner');
+  const inner = document.getElementById('edu-inner');
+  const cards = sec.querySelectorAll('.edu-card');
+  const label = sec.querySelector('.sec-label');
+  const title = sec.querySelector('.sec-title');
+
+  // Reset
+  banner.style.opacity='0'; banner.style.transform='translateX(-50%) scale(0.5)';
+  inner.style.opacity='0'; inner.style.transform='translateY(30px)';
+  label.style.opacity='0'; title.style.opacity='0';
+  cards.forEach(c => { c.style.opacity='0'; c.style.transform='translateY(20px)'; });
+
+  // 1. Achievement banner pops
+  setTimeout(() => {
+    banner.style.transition = 'opacity 0.3s, transform 0.4s cubic-bezier(0.2,0,0.2,1)';
+    banner.style.opacity = '1';
+    banner.style.transform = 'translateX(-50%) scale(1)';
+  }, 100);
+
+  // 2. Banner fades out, content fades in
+  setTimeout(() => {
+    banner.style.opacity = '0';
+    inner.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+    inner.style.opacity = '1';
+    inner.style.transform = 'translateY(0)';
+    label.style.transition='opacity 0.4s'; label.style.opacity='1';
+    setTimeout(() => { title.style.transition='opacity 0.4s'; title.style.opacity='1'; }, 200);
+  }, 1000);
+
+  // 3. Cards pop up
+  cards.forEach((card, i) => {
+    setTimeout(() => {
+      card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+      card.style.opacity = '1';
+      card.style.transform = 'translateY(0)';
+      if (i === cards.length - 1) setTimeout(done, 500);
+    }, 1300 + i * 250);
+  });
+}
 function entranceContact(done) { done(); }
 
 // Boot: run hero entrance immediately

@@ -6,6 +6,7 @@ import Road from './Road'
 import Car from './Car'
 import PhotoBillboard from './PhotoBillboard'
 import ContentBillboard from './ContentBillboard'
+import NeonSign from './NeonSign'
 import { stops } from '../data/content'
 
 const TRAVEL_DEPTH = 90
@@ -49,6 +50,7 @@ export default function Scene({ scrollProgress }) {
       <Suspense fallback={null}>
         <PhotoBillboard />
         {stops.map(stop => <ContentBillboard key={stop.id} stop={stop} />)}
+        <NeonSign />
       </Suspense>
       {scrollProgress != null && <MovingCar scrollProgress={scrollProgress} />}
       {scrollProgress != null && <CameraRig scrollProgress={scrollProgress} />}

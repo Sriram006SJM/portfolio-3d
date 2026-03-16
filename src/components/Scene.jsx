@@ -2,6 +2,7 @@ import { Canvas } from '@react-three/fiber'
 import { Sky } from '@react-three/drei'
 import City from './City'
 import Road from './Road'
+import Car from './Car'
 
 export default function Scene() {
   return (
@@ -18,6 +19,7 @@ export default function Scene() {
       </mesh>
       <City />
       <Road />
+      <Car position={[0, 0, 2]} />
     </Canvas>
   )
 }

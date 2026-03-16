@@ -1,0 +1,58 @@
+export const stops = [
+  {
+    id: 'skills',
+    z: -22,
+    side: 'right',
+    title: 'Skills',
+    lines: [
+      'SQL · PostgreSQL · Snowflake',
+      'Python · Pandas · NumPy · Scikit-learn',
+      'Tableau · Power BI · Excel',
+      'Machine Learning · XGBoost · TensorFlow',
+      'ETL · Data Pipelines · Validation',
+      'Agile · Stakeholder Communication',
+    ],
+  },
+  {
+    id: 'projects',
+    z: -42,
+    side: 'left',
+    title: 'Projects',
+    lines: [
+      '★ Real Estate AI Platform',
+      '  FastAPI · PostgreSQL · Angular · Monte Carlo',
+      'Credit Risk Modeling',
+      '  XGBoost · TensorFlow · 100M+ records',
+      'SmartSell — Mr. Cooper',
+      '  35% accuracy improvement',
+    ],
+  },
+  {
+    id: 'experience',
+    z: -62,
+    side: 'right',
+    title: 'Experience',
+    lines: [
+      'Capgemini — Software Developer',
+      '  Jun 2022 – Jul 2024 · Chennai',
+      '  500K+ records · 20% latency reduction',
+      'Cango Networks — Developer',
+      '  Sep 2021 – Mar 2022 · Chennai',
+      '  30% faster reporting',
+    ],
+  },
+  {
+    id: 'contact',
+    z: -78,
+    side: 'left',
+    title: 'Contact',
+    lines: [
+      'sriram.ganeshalingam@utdallas.edu',
+      'linkedin.com/in/sriram-ganeshalingam',
+      '+1 (469) 679-6681',
+      '',
+      'MS Business Analytics & AI',
+      'University of Texas at Dallas',
+    ],
+  },
+]

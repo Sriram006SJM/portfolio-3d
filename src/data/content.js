@@ -3,6 +3,8 @@ export const stops = [
     id: 'skills',
     z: -22,
     side: 'right',
+    color: '#5eead4',
+    triggerRange: [0.2, 0.35],
     title: 'Skills',
     lines: [
       'SQL · PostgreSQL · Snowflake',
@@ -17,9 +19,11 @@ export const stops = [
     id: 'projects',
     z: -42,
     side: 'left',
+    color: '#93c5fd',
+    triggerRange: [0.45, 0.6],
     title: 'Projects',
     lines: [
-      '★ Real Estate AI Platform',
+      'Real Estate AI Platform',
       '  FastAPI · PostgreSQL · Angular · Monte Carlo',
       'Credit Risk Modeling',
       '  XGBoost · TensorFlow · 100M+ records',
@@ -31,6 +35,8 @@ export const stops = [
     id: 'experience',
     z: -62,
     side: 'right',
+    color: '#fca5a5',
+    triggerRange: [0.65, 0.75],
     title: 'Experience',
     lines: [
       'Capgemini — Software Developer',
@@ -45,6 +51,8 @@ export const stops = [
     id: 'contact',
     z: -78,
     side: 'left',
+    color: '#f0c040',
+    triggerRange: [0.85, 0.95],
     title: 'Contact',
     lines: [
       'sriram.ganeshalingam@utdallas.edu',
